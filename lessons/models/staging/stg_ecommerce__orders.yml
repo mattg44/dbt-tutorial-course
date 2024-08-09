@@ -1,57 +1,74 @@
 version: 2
-
 models:
   - name: stg_ecommerce__orders
-    description: "Table of one row per order"
+    description: The 'stg_ecommerce__orders' model is a comprehensive table that
+      contains detailed information about each order placed on the ecommerce
+      platform. It includes key details such as the order ID, user ID, status of
+      the order, gender of the user, and timestamps for when the order was
+      created, returned, shipped, and delivered. It also includes the number of
+      items in each order. This model is crucial for understanding customer
+      behavior, tracking order progress, and analyzing sales performance. It can
+      be used to generate insights for improving order processing efficiency,
+      customer satisfaction, and overall business growth.
     columns:
       - name: order_id
-        description: "Order ID"
+        description: The unique identifier for each order placed in the ecommerce platform.
+        data_type: int64
         tests:
           - not_null
           - unique
-
       - name: user_id
-        description: "Ucer ID"
-
+        description: The unique identifier for each user who places an order in the
+          ecommerce platform.
+        data_type: int64
       - name: status
-        description: "Order status"
+        description: The current status of the order. It can be 'created', 'shipped',
+          'delivered', or 'returned'.
+        data_type: string
         tests:
           - accepted_values:
               name: unexpected_order_status
               values:
-                - Processing
                 - Cancelled
-                - Shipped
                 - Complete
+                - Processing
                 - Returned
-
+                - Shipped
       - name: gender
-        description: ""
-
+        description: The gender column represents the gender of the user who placed the
+          order. It can be either 'Male' or 'Female'.
+        data_type: string
       - name: created_at
-        description: "Creation date order"
+        description: The created_at column represents the timestamp when the order was
+          placed. It is in the format 'YYYY-MM-DD HH:MM:SS'.
+        data_type: timestamp
         tests:
           - not_null
-
       - name: returned_at
-        description: "Returned date order"
+        description: The returned_at column represents the timestamp when the order was
+          returned by the user. If the order was not returned, this field will
+          be NULL. It is in the format 'YYYY-MM-DD HH:MM:SS'.
+        data_type: timestamp
         tests:
           - not_null:
-              where: "status = 'Returned'"
-
+              where: status = 'Returned'
       - name: shipped_at
-        description: "Shipped date order"
+        description: The 'shipped_at' column represents the date and time when the order
+          was shipped. It is of timestamp data type.
+        data_type: timestamp
         tests:
           - not_null:
-              where: "delivered_at IS NOT NULL OR status = 'Shipped'"
-
+              where: delivered_at IS NOT NULL OR status = 'Shipped'
       - name: delivered_at
-        description: "Delivered date order"
+        description: The 'delivered_at' column represents the date and time when the
+          order was delivered. It is of timestamp data type.
+        data_type: timestamp
         tests:
           - not_null:
-              where: "returned_at_at IS NOT NULL OR status = 'Complete'"
-
-      - name: num_of_item
-        description: "Number of items in the order"
+              where: returned_at IS NOT NULL OR status = 'Complete'
+      - name: num_items_ordered
+        description: The 'num_items_ordered' column represents the number of items in the
+          order. It is of integer data type.
+        data_type: int64
         tests:
           - not_null

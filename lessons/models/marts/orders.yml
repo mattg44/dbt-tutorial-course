@@ -1,0 +1,83 @@
+version: 2
+models:
+  - name: orders
+    description: "The 'orders' model is a transformation of the
+      'stg_ecommerce__orders' source table and the
+      'int_ecommerce__order_items_products' intermediate table. It contains
+      detailed information about each order placed in the ecommerce platform.
+      The model includes the following columns: 'order_id' (the unique
+      identifier of the order), 'order_created_at' (the timestamp when the order
+      was created), 'order_shipped_at' (the timestamp when the order was
+      shipped), 'order_delivered_at' (the timestamp when the order was
+      delivered), 'order_returned_at' (the timestamp when the order was
+      returned, if applicable), 'order_status' (the current status of the
+      order), 'num_items_ordered' (the total number of items ordered),
+      'total_sale_price' (the total sale price of the order),
+      'total_product_cost' (the total cost of the products in the order),
+      'total_profit' (the total profit from the order), and 'total_discount'
+      (the total discount applied to the order). The model is created using a
+      SQL query that joins the 'stg_ecommerce__orders' source table with the
+      'order_item_measures' subquery, which aggregates measures from the
+      'int_ecommerce__order_items_products' intermediate table."
+    columns:
+      - name: order_id
+        description: The unique identifier for each order. This is an integer value.
+        data_type: int64
+        quote: true
+        tests:
+          - unique
+      - name: order_created_at
+        description: The timestamp indicating when the order was created. This is
+          recorded in UTC.
+        data_type: timestamp
+        quote: true
+      - name: order_shipped_at
+        description: The timestamp indicating when the order was shipped. This is
+          recorded in UTC.
+        data_type: timestamp
+        quote: true
+      - name: order_delivered_at
+        description: This column represents the timestamp when the order was delivered
+          to the customer. It is of type timestamp.
+        data_type: timestamp
+        quote: true
+      - name: order_returned_at
+        description: This column represents the timestamp when the order was returned by
+          the customer. It is of type timestamp.
+        data_type: timestamp
+        quote: true
+      - name: order_status
+        description: This column represents the current status of the order. It is of
+          type string and can have values like 'shipped', 'delivered',
+          'returned', etc.
+        data_type: string
+        quote: true
+      - name: num_items_ordered
+        description: This column represents the total number of items ordered in each
+          order. It is an integer value.
+        data_type: int64
+        quote: true
+      - name: total_sale_price
+        description: This column represents the total sale price of all items in each
+          order. It is a floating point number that includes the sum of the sale
+          price of each item in the order.
+        data_type: float64
+        quote: true
+      - name: total_product_cost
+        description: This column represents the total cost of all items in each order.
+          It is a floating point number that includes the sum of the cost of
+          each item in the order.
+        data_type: float64
+        quote: true
+      - name: total_profit
+        description: The total profit is calculated as the sum of the item profit for
+          each order. It represents the total earnings from the order after
+          subtracting the cost of the products sold.
+        data_type: float64
+        quote: true
+      - name: total_discount
+        description: The total discount is the sum of all the discounts applied to the
+          items in the order. It represents the total amount of money saved by
+          the customer through discounts on the order.
+        data_type: float64
+        quote: true

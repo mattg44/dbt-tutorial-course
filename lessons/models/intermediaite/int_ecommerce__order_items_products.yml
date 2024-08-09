@@ -1,0 +1,74 @@
+version: 2
+models:
+  - name: int_ecommerce__order_items_products
+    columns:
+      - name: order_item_id
+        data_type: int64
+        quote: true
+        description: Unique identifier for each item in an order. This is a primary key
+          in the int_ecommerce__order_items_products model.
+        tests:
+          - not_null
+      - name: order_id
+        data_type: int64
+        quote: true
+        description: Unique identifier for each order. This is a foreign key that links
+          to the order_id in the orders table.
+        tests:
+          - not_null
+      - name: user_id
+        data_type: int64
+        quote: true
+        description: Unique identifier for each user. This is a foreign key that links
+          to the user_id in the users table.
+        tests:
+          - not_null
+      - name: product_id
+        data_type: int64
+        quote: true
+        description: The unique identifier for each product sold on the ecommerce
+          platform. This is used to join the order items with the product
+          details.
+        tests:
+          - not_null
+      - name: item_sale_price
+        data_type: float64
+        quote: true
+        description: The price at which the item was sold in the order. This is used to
+          calculate the profit and discount for each item sold.
+      - name: product_department
+        data_type: string
+        quote: true
+        description: The department to which the product belongs. This is used for
+          categorizing the products and can be used for analysis by department.
+      - name: product_cost
+        data_type: float64
+        quote: true
+        description: The cost of the product as provided by the supplier. This is the
+          amount the ecommerce platform pays to acquire the product.
+      - name: product_retail_price
+        data_type: float64
+        quote: true
+        description: The retail price of the product. This is the price at which the
+          product is listed for sale on the ecommerce platform.
+      - name: item_profit
+        data_type: float64
+        quote: true
+        description: The profit made on the sale of the item. It is calculated as the
+          difference between the item's sale price and the product's cost.
+      - name: item_discount
+        data_type: float64
+        quote: true
+        description: This column represents the discount applied to the item. It is
+          calculated by subtracting the item's sale price from the product's
+          retail price.
+    description: "The int_ecommerce__order_items_products model is a transformation
+      of the stg_ecommerce__order_items and stg_ecommerce__products source
+      tables. It contains detailed information about each order item and the
+      associated product. The model includes the following columns:
+      order_item_id, order_id, user_id, product_id, item_sale_price,
+      product_department, product_cost, product_retail_price, item_profit, and
+      item_discount. The item_profit column is calculated as the difference
+      between the item_sale_price and the product_cost. The item_discount column
+      is calculated as the difference between the product_retail_price and the
+      item_sale_price."
